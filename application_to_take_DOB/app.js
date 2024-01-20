@@ -15,6 +15,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req,res) => {
     res.sendFile(__dirname + '/public/index.html');
+    
+}); 
+
+app.get('/showdata', (req, res) => {
+    db.run("SELECT * FROM users"),
+    function (err) {
+        if(err) {
+            return console.error(err.message);
+        }
+        console.log('The data base contains the following information');
+    }
 });
 
 app.post('/submit', (req, res) => {
@@ -36,15 +47,7 @@ app.post('/submit', (req, res) => {
 
 });
 
-app.get('/showdata', (req, res) => {
-    db.run("SELECT * FROM users"),
-    function (err) {
-        if(err) {
-            return console.error(err.message);
-        }
-        console.log('The data base contains the following information');
-    }
-})
+
 
 // Start the server
 app.listen(PORT, () => {
