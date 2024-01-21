@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Admin Log</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <title>Admin Log</title>
+</head>
+
+<body>
+
+    <h1>Data Entered</h1>
+    <hr>
+    <table class="table" border="2" style="background: #FFFFFF;">
+        <thead>
+            <tr>
+                <th scope="col">
+                    <h2>Name</h2>
+                </th>
+                <th scope="col">
+                    <h2>Surname</h2>
+                </th>
+                <th scope="col">
+                    <h2>dob</h2>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.forEach(row=> { %>
+                <tr>
+                    <td>
+                        <%= row.name %>
+                    </td>
+                    <td>
+                        <%= row.surname%>
+                    </td>
+                    <td>
+                        <%= row.dob %>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+
+</html>
