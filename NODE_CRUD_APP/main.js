@@ -41,7 +41,6 @@ app.set("view engine", "ejs");
 // route prefix
 app.use("", require("./routes/routes"));
 
-
 // app.get('/', (req, res) => {
 //     res.send('Hello worlds');
 // });
