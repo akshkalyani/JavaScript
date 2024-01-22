@@ -27,6 +27,9 @@
                 <th scope="col">
                     <h2>dob</h2>
                 </th>
+                <th scope="col">
+                    <h2>Edit</h2>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -40,6 +43,9 @@
                     </td>
                     <td>
                         <%= row.dob %>
+                    </td>
+                    <td>
+                        <a href="/edit/<%= row.id %>">Edit</a>
                     </td>
                 </tr>
             <% }); %>

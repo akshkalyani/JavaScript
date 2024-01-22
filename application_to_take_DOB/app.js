@@ -48,6 +48,40 @@ app.post('/submit', (req, res) => {
     });
 });
 
+// Route to edit data
+app.get('/edit/:id', (req, res) => {
+    const userId = req.params.id;
+
+    db.get("SELECT * FROM users WHERE id = ?", [userId], (err, row) => {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send("Internal Server Error");
+        } else {
+            res.render("edit", { user: row });
+        }
+    });
+});
+
+app.post('/edit/:id', (req, res) => {
+    const userId = req.params.id;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const dob = req.body.dob;
+
+    db.run(
+        "UPDATE users SET name = ?, surname = ?, dob = ? WHERE id = ?",
+        [firstName, lastName, dob, userId],
+        function (err) {
+            if (err) {
+                return console.error(err.message);
+            }
+            console.log(`Data with id ${userId} has been updated`);
+            res.redirect('/submit');
+        }
+    );
+});
+
+
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
