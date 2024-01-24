@@ -8,7 +8,7 @@
                     <h3 class="text-light">Add New User</h3>
                 </div>
                 <div class="card-body p-4">
-                    <form action="/add" method="post" id="add-form" enctype="multipart/form-data">
+                    <form action="/add" method="POST" id="add-form" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="name">Name</label>
                             <input type="text" name="name" class="form-control form-control-lg" placeholder="Enter Name" required/>
@@ -23,7 +23,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="image" class="form-label">Select Image</label>
-                            <input type="image" name="image" class="form-control form-control-lg" required/>
+                            <input type="file" name="image" class="form-control form-control-lg" required/>
                         </div>
                         <div class="mb-3 d-grid"?>
                             <input type="submit" name="submit" value="Add User" class="btn btn-primary btn-primary-lg"/>
