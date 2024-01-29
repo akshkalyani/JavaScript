@@ -1,2 +1,6 @@
 /node_modules
-/.uploads
+# F:\03. CODE\JavaScript\NODE_CRUD_APP\uploads
+# /uploads
+# image*
+# *.JPG
+echo "/uploads" >> .gitignore 
