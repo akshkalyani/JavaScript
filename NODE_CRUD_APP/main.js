@@ -34,6 +34,9 @@ app.use((req, res, next) => {
     next();
 });
 
+// set uploads(folder) as static as the images weren't being displayed in the form otherwise
+app.use(express.static("uploads"));
+
 // set template engine
 app.set("view engine", "ejs");
 

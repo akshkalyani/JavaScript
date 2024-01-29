@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/users');
 const multer = require('multer');
+const users = require('../models/users');
 
 // image uploading
 var storage = multer.diskStorage({
@@ -25,7 +26,7 @@ router.post("/add", upload, async(req, res) => {
             name: req.body.name,
             email: req.body.email,
             phone: req.body.phone,
-            image: req.file.path,
+            image: req.file.filename,
         })
         const data = await user.save();
         let msg = {
@@ -43,9 +44,25 @@ router.post("/add", upload, async(req, res) => {
 
 });
 
-router.get('/', (req, res) => {
-    res.render('index', { title: 'Home Page'})
+router.get('/', async   (req, res) => {
+    // res.render('index', { title: 'Home Page'})
+        try {
+            // User.find().exec((users) => {
+            // res.render('index', {
+            //     title: "Home Page",
+            //     users: users
+            // });
+            // })
+            const users = await User.find().exec();
+            res.render('index', {
+            title: "Home Page",
+            users: users
+            }   );
 
+        } catch(error) {
+            console.log(error);
+            res.status(500).send(error.message);
+        }
 });
 
 router.get('/add', (req,res) => {
