@@ -1,6 +1,6 @@
 /node_modules
 # F:\03. CODE\JavaScript\NODE_CRUD_APP\uploads
-# /uploads
+/uploads
 # image*
 # *.JPG
-echo "/uploads" >> .gitignore 
+# remove cached using git rm -r --cached folder_name
