@@ -106,7 +106,7 @@ router.post('/update/:id', upload, async (req, res) => {
             try{
                 fs.unlinkSync('./uploads'+req.body.old_image);
             } catch(err) {
-                console.log(err)
+                console.log(err);
             }
         } else  {
             new_image = req.body.old_image;
@@ -128,11 +128,61 @@ router.post('/update/:id', upload, async (req, res) => {
     } catch (err) {
         console.log(err);
         res.json({ message: err.message, type: 'danger'});
-
     }
 });
     
 // MAKING CHNANGES FROM HEREEEEEE
 
+
+// Delete Users
+/*
+router.get("/delete/:id", (req, res) => {
+    let id = req.params.id;
+    User.findByIdAndDelete(id, (err, result) =>
+    {
+        if(result.image != ''){
+            try {
+                fs.unlinkSync('./uploads/'+result.image)
+            } catch(err) {
+                console.log(err);
+            }
+        }
+    });
+
+        if(err){
+            res.json( { message: err.message });
+        } else{
+            res.session.message = {
+                type: "info",
+                message: "User deleted successfully"
+            };
+            res.redirect('/'); 
+            }
+        
+});
+*/
+router.get("/delete/:id", async (req, res) => {
+    try {
+        let id = req.params.id;
+        const result = await User.findByIdAndDelete(id).exec();
+
+        if (result.image !== '') {
+            try {
+                fs.unlinkSync('./uploads/' + result.image);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        req.session.message = {
+            type: "info",
+            message: "User deleted successfully"
+        };
+        res.redirect('/');
+    } catch (err) {
+        console.error(err);
+        res.json({ message: err.message });
+    }
+});
 
 module.exports = router;
