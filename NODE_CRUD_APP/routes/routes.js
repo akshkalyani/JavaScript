@@ -3,6 +3,8 @@ const router = express.Router();
 const User = require('../models/users');
 const multer = require('multer');
 const users = require('../models/users');
+const fs = require('fs');
+
 
 // image uploading
 var storage = multer.diskStorage({
@@ -71,5 +73,66 @@ router.get('/add', (req,res) => {
 // router.post('/abc',(req,res)=>{
 //     res.send('hello')
 // })
+
+// Edit user rooute
+router.get('/edit/:id', async (req, res) => {
+    let id = req.params.id;
+    try {
+        const user = await User.findById(id).exec();
+    
+        if (user == null) {
+            res.redirect('/');
+        } else {
+            res.render('edit_users', {
+                title: "Edit user",
+                user: user,
+            });
+        }
+    } catch (err) {
+        console.error(err);
+        res.redirect('/');
+    }    
+});
+
+// Update user route
+router.post('/update/:id', upload, async (req, res) => {
+    let id = req.params.id;
+    let new_image = '';
+// MAKING CHNANGES FROM HEREEEEEE
+    
+    try{
+        if(req.file) {
+            new_image = req.file.filename;
+            try{
+                fs.unlinkSync('./uploads'+req.body.old_image);
+            } catch(err) {
+                console.log(err)
+            }
+        } else  {
+            new_image = req.body.old_image;
+        }
+    
+
+        const result = await User.findByIdAndUpdate(id, {
+            name: req.body.name,
+            email: req.body.email,
+            phone: req.body.phone,
+            image: new_image,
+        });
+
+        req.session.message = {
+            type: 'success',
+            message: 'user updated successfully!',
+        };
+        res.redirect('/');
+    } catch (err) {
+        console.log(err);
+        res.json({ message: err.message, type: 'danger'});
+
+    }
+});
+    
+// MAKING CHNANGES FROM HEREEEEEE
+
 
 module.exports = router;
