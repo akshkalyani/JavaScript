@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express")
 const mongoose = require("mongoose");
 const session = require("express-session");
+const nodemailer = require("nodemailer");
 
 const app = express();
 const PORT = process.env.PORT || 4000;

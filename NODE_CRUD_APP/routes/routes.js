@@ -4,6 +4,11 @@ const User = require('../models/users');
 const multer = require('multer');
 const users = require('../models/users');
 const fs = require('fs');
+const nodemailer = require('nodemailer');
+const dotenv = require("dotenv");  // Added to use dotenv for environment variables
+
+dotenv.config();  // Load environment variables from a .env file
+
 
 
 // image uploading
@@ -133,34 +138,7 @@ router.post('/update/:id', upload, async (req, res) => {
     
 // MAKING CHNANGES FROM HEREEEEEE
 
-
-// Delete Users
-/*
-router.get("/delete/:id", (req, res) => {
-    let id = req.params.id;
-    User.findByIdAndDelete(id, (err, result) =>
-    {
-        if(result.image != ''){
-            try {
-                fs.unlinkSync('./uploads/'+result.image)
-            } catch(err) {
-                console.log(err);
-            }
-        }
-    });
-
-        if(err){
-            res.json( { message: err.message });
-        } else{
-            res.session.message = {
-                type: "info",
-                message: "User deleted successfully"
-            };
-            res.redirect('/'); 
-            }
-        
-});
-*/
+// Deleting Users
 router.get("/delete/:id", async (req, res) => {
     try {
         let id = req.params.id;
@@ -182,6 +160,58 @@ router.get("/delete/:id", async (req, res) => {
     } catch (err) {
         console.error(err);
         res.json({ message: err.message });
+    }
+});
+
+// Send OTP via email
+router.post('/send-otp', async (req, res) => {
+    const userId = req.body.userId;
+    // Generate OTP
+const generateOTP = () => {
+    return Math.floor(100000 + Math.random() * 999999);
+};
+
+// Nodemailer Config
+const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    secure: false,
+    auth: {
+        user: 'ak6155@srmist.edu.in', 
+        pass: 'Aangan#1' 
+    }
+});
+
+    try {
+        // Use await to wait for the result of the query
+        const user = await User.findById(userId).exec();
+
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        const userEmail = user.email;
+        const userName = user.name;
+        const otp = generateOTP();
+
+        const mailOptions = {
+            from: 'ak6155@srmist.edu.in',
+            to: userEmail,
+            subject: 'OTP Verification',
+            text: `Hi ${userName}, this is a system generated mail. Do not reply. Your OTP is: ${otp}`
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error(error);
+                res.status(500).send('Error sending OTP');
+            } else {
+                console.log('Email sent: ' + info.response);
+                res.status(200).send('OTP sent successfully');
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error fetching user information');
     }
 });
 

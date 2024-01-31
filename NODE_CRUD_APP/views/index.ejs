@@ -14,6 +14,7 @@
                                 <th>E-mail</th>
                                 <th>Phone</th>
                                 <th>Action</th>
+                                <th>Email OTP</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -28,8 +29,12 @@
                                         <a href="/edit/<%= row._id %>" class="text-success"><i class="fas fa-edit fa-lg mx-1"></i></a>
                                         <a href="/delete/<%= row._id %>" class="text-danger"><i class="fas fa-trash fa-lg mx-1"></i></a>
                                     </TD>
+                                    <td>
+                                        <button href="/send-otp" class="btn btn-primary send-otp-btn" data-userid="<%= row._id %>">Send OTP</button>
+                                    </td>
                                 </TR>
                             <% }) %>
+                            
                         </tbody>
                     </table>
 
@@ -42,5 +47,29 @@
         </div>
     </div>
 </div>
+
+<!-- Added Jquery to the body for  ***OTP SENDING***  feature -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.send-otp-btn').on('click', function () {
+            var userId = $(this).data('userid');
+            
+            // Perform an AJAX request to send OTP
+            $.ajax({
+                url: '/send-otp',
+                method: 'POST',
+                data: { userId: userId },
+                success: function (response) {
+                    alert(response); // Show the response from the server
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                    alert('Error sending OTP');
+                }
+            });
+        });
+    });
+</script>
 
 <%- include('layout/footer') %>
