@@ -176,8 +176,8 @@ const transporter = nodemailer.createTransport({
     service: 'Gmail',
     secure: false,
     auth: {
-        user: 'ak6155@srmist.edu.in', 
-        pass: 'Aangan#1' 
+        user: '***************ENTER A MAIL ID************', 
+        pass: '***************ENTER A PASSWORD************' 
     }
 });
 
@@ -194,7 +194,7 @@ const transporter = nodemailer.createTransport({
         const otp = generateOTP();
 
         const mailOptions = {
-            from: 'ak6155@srmist.edu.in',
+            from: '***************ENTER A MAIL ID************',
             to: userEmail,
             subject: 'OTP Verification',
             text: `Hi ${userName}, this is a system generated mail. Do not reply. Your OTP is: ${otp}`
